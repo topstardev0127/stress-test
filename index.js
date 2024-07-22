@@ -5,7 +5,7 @@ const sleep = require("util").promisify(setTimeout);
 const crypto = require("crypto");
 
 const BUFFER_SIZE = 16000 * 0.35;
-const CLIENT_COUNT = 5;
+const CLIENT_COUNT = 1;
 
 // Function to generate random client IDs
 function generateClientId() {
@@ -15,7 +15,7 @@ function generateClientId() {
 function startWebSocketConnection() {
   const clientId = generateClientId();
   const ws = new WebSocket(
-    `ws://35.232.33.243/ws/socket.io/?EIO=4&transport=websocket&t=1720563729&clientID=${clientId}`
+    `wss://demo.trytoby.com/ws/socket.io/?EIO=4&transport=websocket&t=1720563729&clientID=${clientId}`
   );
 
   ws.on("open", () => {
@@ -34,13 +34,6 @@ function startWebSocketConnection() {
           console.error("An error occurred:", error);
         } else {
           let audioBuffer = data.split("\n").map(Number);
-
-          console.log(
-            typeof audioBuffer,
-            audioBuffer.length,
-            audioBuffer[1000],
-            audioBuffer
-          );
 
           while (audioBuffer.length >= BUFFER_SIZE) {
             const dataToSend = audioBuffer.slice(0, BUFFER_SIZE);
